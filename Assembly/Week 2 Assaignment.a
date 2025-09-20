@@ -1,0 +1,85 @@
+.data
+prompt1: .asciiz "Enter a number: "
+prompt2: .asciiz "Enter another number: "
+product: .asciiz "Product: "
+quotient: .asciiz "Quotient: "
+sum: .asciiz "Sum: "
+difference: .asciiz "Difference: "
+endline: .asciiz "\n"
+
+.text
+.globl main
+
+main:
+li $v0, 4  # Ask user for a number, take unput of number, save number to register
+la $a0, prompt1
+syscall
+li $v0, 5
+syscall
+move $t0, $v0
+
+li $v0, 4 # Ask user for another number, take input of number, save number to register
+la $a0, prompt1
+syscall
+li $v0, 5
+syscall
+move $t1, $v0
+
+mult $t0, $t1
+mflo $t2
+
+li $v0, 4 # Print "product"
+la $a0, product
+syscall
+
+li $v0, 1 # Print product answer
+move $a0, $t2
+syscall
+
+li $v0, 4 # Start a new line
+la $a0, endline
+syscall
+
+div $t2, $t0, $t1  # Divide the nunbers
+
+li $v0, 4 # Print "quotient"
+la $a0, quotient
+syscall
+
+li $v0, 1 # Print quotient answer
+move $a0, $t2
+syscall
+
+li $v0, 4
+la $a0, endline
+syscall
+
+add $t2, $t0, $t1 # Add the numbers, moving them to $t2
+
+li $v0, 4 # Print "sum"
+la $a0, sum
+syscall
+
+li $v0, 1 # Print sum answer
+move $a0, $t2
+syscall
+li $v0, 4
+la $a0, endline
+syscall
+
+sub $t2, $t0, $t1 # Subtract the numbers, moving them to $t2
+
+li $v0, 4 # Print "difference"
+la $a0, difference
+syscall
+
+li $v0, 1 # Print difference answer
+move $a0, $t2
+syscall
+li $v0, 4
+la $a0, endline
+syscall
+
+end:
+li $v0, 10  # Exit
+syscall
